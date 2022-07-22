@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser')
-const Post = require('./models/Post')
+const Post = require('./models/Post.js')
 
 
 
@@ -21,8 +21,7 @@ const Post = require('./models/Post')
     //rotas
 
     app.get('/', function(req,res){
-        Post.findAll().then(function(posts) {
-
+        Post.findAll({order: [['id', 'DESC']]}).then(function(posts) {
 
             res.render('home', {posts: posts})
         })
@@ -44,6 +43,10 @@ const Post = require('./models/Post')
             res.send("Houve um erro: "+erro)
         })
 
+    })
+
+    app.get('/deletar/:id', function(req,res){
+        Post.destroy()
     })
 
 app.listen(3000, function(){
