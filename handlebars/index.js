@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const handlebars = require('express-handlebars');
 const bodyParser = require('body-parser')
-const Post = require('./models/Post.js')
+const Post = require('./models/Post.js');
+
 
 
 
@@ -46,7 +47,15 @@ const Post = require('./models/Post.js')
     })
 
     app.get('/deletar/:id', function(req,res){
-        Post.destroy()
+
+        Post.destroy({where: {'id': req.params.id}}).then(function(){
+
+            res.send('Postagem deletada com sucesso!!')
+        }).catch(function(erro){
+            
+            res.send("esta postagem não existe:")
+            
+        })
     })
 
 app.listen(3000, function(){
